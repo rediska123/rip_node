@@ -1,3 +1,5 @@
+import { PASSES_MOCK } from "./mock"
+
 export interface Pass {
     id: number
     name: string
@@ -13,15 +15,18 @@ export interface PassesResult {
 }
 
 export const getPassesByPrice = async (price = ''): Promise<PassesResult> =>{
-    return fetch(`http://localhost:8000/passes/?price=${price}`)
+    return fetch(`http://localhost:3000/api/passes/?price=${price}`)
         .then((response) => response.json())
+        .catch(()=> (PASSES_MOCK))
 }
 
 export const getPassById = async (
-    id: number | string
+    id: number
   ): Promise<Pass> => {
-    return fetch(`http://localhost:8000/passes/${id}/`).then(
-      (response) => response.json()
-    );
+    return fetch(`http://localhost:3000/api/passes/${id}/`)
+    .then((response) => response.json())
+    .catch(()=> (PASSES_MOCK.passes.find(
+      (pass) => pass.id === id
+    )))
   };
   

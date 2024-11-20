@@ -8,13 +8,17 @@ interface Props {
 }
 
 const PassNav: FC<Props> = ({name}) => (
-    <Navbar expand="lg" className='myheader'>
+    <Navbar key="md" expand="md" className='pass-header'>
         <Container>
           <Navbar.Brand href="/">{name}</Navbar.Brand>
-          <Nav className="me-auto">
-          <Nav.Link href="#"><Link to={ROUTES.HOME}>{ROUTE_LABELS.HOME}</Link></Nav.Link>
-          <Nav.Link href="#"><Link to={ROUTES.PASSES}>{ROUTE_LABELS.PASSES}</Link></Nav.Link>
-          </Nav>
+          <Navbar.Toggle aria-controls="navbarScroll" />
+          <Navbar.Collapse id="navbarScroll">
+            <Nav className="justify-content-end"></Nav>
+            <Nav className="me-auto">
+              <Nav.Link href="#"><Link to={ROUTES.HOME}>{ROUTE_LABELS.HOME}</Link></Nav.Link>
+              <Nav.Link href="#"><Link to={ROUTES.PASSES}>{ROUTE_LABELS.PASSES}</Link></Nav.Link>
+            </Nav>
+          </Navbar.Collapse>
         </Container>
       </Navbar>
 )

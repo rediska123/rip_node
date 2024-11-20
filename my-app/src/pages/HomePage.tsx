@@ -7,7 +7,7 @@ import PassNav from "../components/passes_nav";
 export const HomePage: FC = () => {
   return (
     <Container>
-      <PassNav name="OOO  Продажа билетов"/>
+      <PassNav name="OOO  ПродажаБилетов"/>
       <Row>
         <Col md={6}>
           <h1>ООО Продажа билетов</h1>

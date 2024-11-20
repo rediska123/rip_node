@@ -105,6 +105,12 @@ background-color: #1c8431;
   border-radius: 10px;
 }
 
+.pass-button {
+	background: #0099ff;
+	border-radius: 14px;
+	border: 0;
+  }
+
 .button:hover {
   background-color: #1c8431;
 }

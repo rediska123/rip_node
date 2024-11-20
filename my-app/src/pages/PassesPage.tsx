@@ -1,32 +1,44 @@
 import { FC, useState, useEffect} from 'react'
 import { Col, Row, Spinner } from 'react-bootstrap'
-import { PassesResult, getPassesByPrice } from '../modules/PassesAPI'
-import InputField from '../components/InputField'
+import { getPassesByPrice, Pass } from '../modules/PassesApi'
+import InputField from '../components/InputField' 
 import PassCard from '../components/PassCard'
 import { ROUTE_LABELS, ROUTES } from '../Routes'
 import { BreadCrumbs } from '../components/BreadCrumbs'
-import { useNavigate, Navigate } from "react-router-dom";
-import { PASSES_MOCK } from "../modules/mock";
+import { useNavigate } from "react-router-dom";
 import PassNav from '../components/passes_nav'
-
+import { useDispatch, useSelector } from 'react-redux';
+import { setSearchValue, setPasses } from '../slices/PassesSlice'; 
 
 const PassesPage: FC = () => {
-    const [searchValue, setSearchValue] = useState('')
+    const dispatch = useDispatch();
+    const searchValue = useSelector((state: any) => state.passes.searchValue);
+    const passes = useSelector((state: any) => state.passes.passes);
+
+    //const [searchValue, setSearchValue] = useState('')
     const [loading, setLoading] = useState(false)
-    const [passes, setPasses] = useState<PassesResult>()
+    //const [passes, setPasses] = useState<PassesResult>()
+
+    const [activeSearchValue, setActiveSearchValue] = useState(searchValue)
 
     const navigate = useNavigate();
 
+    const handleSearch = async () => {
+        dispatch(setSearchValue(activeSearchValue))
+        setLoading(true)
+        getPassesByPrice(searchValue)
+        .then((response) => dispatch(setPasses(response)))
+        setLoading(false)
+    };
+
+    /*
     const handleSearch = async () =>{
         setLoading(true)
         getPassesByPrice(searchValue)
         .then((response) => setPasses(response))
-        .catch(() => { // В случае ошибки используем mock данные, фильтруем по имени
-            setPasses(
-                PASSES_MOCK
-            )})
         setLoading(false)
     }
+    */
 
     const handleCardClick = (id: number) => {
         // клик на карточку, переход на страницу альбома
@@ -36,37 +48,42 @@ const PassesPage: FC = () => {
     useEffect(() => {
         setLoading(true)
         getPassesByPrice(searchValue)
-        .then((response) => setPasses(response))
-        .catch(() => { // В случае ошибки используем mock данные, фильтруем по имени
-            setPasses(
-                PASSES_MOCK
-            )})
+        .then((response) => dispatch(setPasses(response)))
         setLoading(false)
     }, [])
 
+    /*
+    useEffect(() => {
+        setLoading(true)
+        getPassesByPrice(searchValue)
+        .then((response) => setPasses(response))
+        setLoading(false)
+    }, [])
+    */
+
     return (
-        <div className={`container ${loading && 'containerLoading'}`}>
+        <div className={`container  ${loading && 'containerLoading'}`}>
             {loading && <div className="loadingBg"><Spinner animation="border"/></div>}
 
-            <PassNav name="OOO  Продажа билетов"/>
+            <PassNav name="OOO  ПродажаБилетов"/>
 
             <BreadCrumbs crumbs={[{ label: ROUTE_LABELS.PASSES }]} />
 
             <InputField
-                value={searchValue}
-                setValue={(value) => setSearchValue(value)}
+                value={activeSearchValue}
+                setValue={(value) => setActiveSearchValue(value)}
                 loading={loading}
                 onSubmit={handleSearch}
             />
 
             {!passes ? (<div>
-                <h1>К сожалению, пока ничего не найдено :(</h1>
+                <h1>К сожалению, пока ничего не найдено</h1>
             </div>):(
 
-            <Row xs={4} md={4} className="g-4">
-                {passes.passes.map((item, index)=> (
+            <Row xs={1} sm={2} md={3} lg={3} className="g-3">
+                {passes.passes.map((item: Pass, index: number)=> (
                     <Col key={index}>
-                        <PassCard h-100 
+                        <PassCard
                         imageClickHandler={() => handleCardClick(item.id)}
                         {...item} />
                     </Col>

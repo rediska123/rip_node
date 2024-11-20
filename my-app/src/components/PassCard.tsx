@@ -1,6 +1,7 @@
 import { FC } from 'react'
 import { Button, Card } from 'react-bootstrap'
 import defaultImage from "../bus.png";
+import "../index.css"
 
 
 interface Props {
@@ -12,14 +13,14 @@ interface Props {
     imageClickHandler: () => void;
 }
 
-const PassCard: FC<Props> = ({ name, description, price, image, id, imageClickHandler }) => (
+const PassCard: FC<Props> = ({ name, description, price, image, imageClickHandler }) => (
     <Card className="card pass-card h-100">
-        <Card.Img className="pass-img" variant="top" src={image || defaultImage} onClick={imageClickHandler}/>
+        <Card.Img className="bd-placeholder-img card-img-top pass-img mx-auto d-block" variant="top" src={image || defaultImage} onClick={imageClickHandler}/>
         <Card.Body>
             <Card.Title>{name}</Card.Title>
             <Card.Text>{description}</Card.Text>
-            <Card.Text>{price}</Card.Text>
-            <Button className="cardButton" href="#" target="_blank" variant="primary" onClick={imageClickHandler}>Подробнее</Button>
+            <span>{price} P</span>
+            <Button className="button pass-button float-end" variant="primary" onClick={imageClickHandler}>Подробнее</Button>
         </Card.Body>
     </Card>
 )

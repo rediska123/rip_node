@@ -1,4 +1,4 @@
-import { PassesResult } from "./PassesAPI";
+import { PassesResult } from "./PassesApi";
 
 export const PASSES_MOCK: PassesResult = {
   client_card_id: 0,

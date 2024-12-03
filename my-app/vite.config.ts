@@ -5,7 +5,6 @@ import react from '@vitejs/plugin-react'
 const host = process.env.TAURI_DEV_HOST;
 
 export default defineConfig({
-  base: "/rip_node",
   plugins: [react()],
   // prevent vite from obscuring rust errors
   clearScreen: false,
@@ -17,9 +16,14 @@ export default defineConfig({
     port: 5173,
     proxy: {
       "/api": {
-        target: "http://localhost:8000",
+        target: "http://192.168.100.5:8000",
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, "/"),
+      },
+      "/logo": {
+        target: "http://192.168.100.5:9000",
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/logo/, "/logo"),
       },
     }
    },

@@ -1,14 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { PassesResult } from "../modules/PassesApi";
 
 interface SearchState {
     searchValue: string;
-    passes: PassesResult | null;
 }
 
 const initialState: SearchState = {
     searchValue: '',
-    passes: null,
 };
 
 const passesSlice = createSlice({
@@ -17,13 +14,10 @@ const passesSlice = createSlice({
     reducers: {
         setSearchValue(state, action: PayloadAction<string>) {
             state.searchValue = action.payload;
-        },
-        setPasses(state, action: PayloadAction<PassesResult>) {
-            state.passes = action.payload;
-        },
+        }
     },
 });
 
-export const { setSearchValue, setPasses } = passesSlice.actions;
+export const { setSearchValue } = passesSlice.actions;
 
 export default passesSlice.reducer;

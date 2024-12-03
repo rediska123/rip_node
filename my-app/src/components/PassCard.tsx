@@ -14,7 +14,7 @@ interface Props {
 }
 
 const PassCard: FC<Props> = ({ name, description, price, image, imageClickHandler }) => (
-    <Card className="card pass-card h-100">
+    <Card className="pass-card card h-100">
         <Card.Img className="bd-placeholder-img card-img-top pass-img mx-auto d-block" variant="top" src={image || defaultImage} onClick={imageClickHandler}/>
         <Card.Body>
             <Card.Title>{name}</Card.Title>

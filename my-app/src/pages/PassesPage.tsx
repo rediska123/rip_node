@@ -8,26 +8,23 @@ import { BreadCrumbs } from '../components/BreadCrumbs'
 import { useNavigate } from "react-router-dom";
 import PassNav from '../components/passes_nav'
 import { useDispatch, useSelector } from 'react-redux';
-import { setSearchValue, setPasses } from '../slices/PassesSlice'; 
+import { setSearchValue } from '../slices/PassesSlice'; 
+import { PassesResult } from '../modules/PassesApi'
 
 const PassesPage: FC = () => {
     const dispatch = useDispatch();
     const searchValue = useSelector((state: any) => state.passes.searchValue);
-    const passes = useSelector((state: any) => state.passes.passes);
 
     //const [searchValue, setSearchValue] = useState('')
     const [loading, setLoading] = useState(false)
-    //const [passes, setPasses] = useState<PassesResult>()
-
-    const [activeSearchValue, setActiveSearchValue] = useState(searchValue)
+    const [passes, setPasses] = useState<PassesResult>()
 
     const navigate = useNavigate();
 
     const handleSearch = async () => {
-        dispatch(setSearchValue(activeSearchValue))
         setLoading(true)
         getPassesByPrice(searchValue)
-        .then((response) => dispatch(setPasses(response)))
+        .then((response) => setPasses(response))
         setLoading(false)
     };
 
@@ -48,7 +45,7 @@ const PassesPage: FC = () => {
     useEffect(() => {
         setLoading(true)
         getPassesByPrice(searchValue)
-        .then((response) => dispatch(setPasses(response)))
+        .then((response) => setPasses(response))
         setLoading(false)
     }, [])
 
@@ -62,21 +59,23 @@ const PassesPage: FC = () => {
     */
 
     return (
-        <div className={`container  ${loading && 'containerLoading'}`}>
+        <div className={` ${loading && 'containerLoading'}`}>
             {loading && <div className="loadingBg"><Spinner animation="border"/></div>}
-
+            <div className="container">
             <PassNav name="OOO  ПродажаБилетов"/>
 
             <BreadCrumbs crumbs={[{ label: ROUTE_LABELS.PASSES }]} />
-
+            
+            <div className="card pass-card mb-4">
             <InputField
-                value={activeSearchValue}
-                setValue={(value) => setActiveSearchValue(value)}
+                value={searchValue}
+                setValue={(value) => dispatch(setSearchValue(value))}
                 loading={loading}
                 onSubmit={handleSearch}
             />
+            </div>
 
-            {!passes ? (<div>
+            {!passes?.passes ? (<div>
                 <h1>К сожалению, пока ничего не найдено</h1>
             </div>):(
 
@@ -90,6 +89,7 @@ const PassesPage: FC = () => {
                 ))}
             </Row>
             )}
+            </div>
         </div>
     )
 }

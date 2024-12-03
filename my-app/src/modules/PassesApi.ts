@@ -1,5 +1,6 @@
 import { PASSES_MOCK } from "./mock"
 
+
 export interface Pass {
     id: number
     name: string

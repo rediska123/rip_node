@@ -1,6 +1,6 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
-
+import {api_proxy_addr, img_proxy_addr} from "./target_config"
 
 const host = process.env.TAURI_DEV_HOST;
 
@@ -16,12 +16,12 @@ export default defineConfig({
     port: 5173,
     proxy: {
       "/api": {
-        target: "http://192.168.100.5:8000",
+        target: api_proxy_addr,
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, "/"),
       },
       "/logo": {
-        target: "http://192.168.100.5:9000",
+        target: img_proxy_addr,
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/logo/, "/logo"),
       },

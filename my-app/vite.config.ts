@@ -13,7 +13,7 @@ export default defineConfig({
     strictPort: true,
     // if the host Tauri is expecting is set, use it
     host: host || false,
-    port: 5173,
+    port: 3000,
     proxy: {
       "/api": {
         target: api_proxy_addr,

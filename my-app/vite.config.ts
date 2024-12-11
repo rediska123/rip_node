@@ -2,8 +2,6 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import {api_proxy_addr, img_proxy_addr} from "./target_config"
 
-const host = process.env.TAURI_DEV_HOST;
-
 export default defineConfig({
   plugins: [react()],
   // prevent vite from obscuring rust errors
@@ -12,7 +10,7 @@ export default defineConfig({
     // Tauri expects a fixed port, fail if that port is not available
     strictPort: true,
     // if the host Tauri is expecting is set, use it
-    host: host || false,
+    host: '0.0.0.0',
     port: 3000,
     proxy: {
       "/api": {

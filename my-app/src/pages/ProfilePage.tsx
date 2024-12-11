@@ -3,10 +3,8 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setUser } from '../slices/AuthSlice';
 import { Button, Container, Form } from 'react-bootstrap';
-import { User } from '../api/Api';
 import { api } from '../api';
-import { useNavigate } from 'react-router-dom';
-import { ROUTE_LABELS, ROUTES } from '../Routes';
+import { ROUTE_LABELS } from '../Routes';
 import { BreadCrumbs } from '../components/BreadCrumbs';
 import PassNav from '../components/passes_nav';
 

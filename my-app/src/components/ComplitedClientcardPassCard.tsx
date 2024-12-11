@@ -1,16 +1,10 @@
 import React from 'react';
 import { Card, Row, Col, Image } from 'react-bootstrap';
 import defaultImage from "../bus.png";   
+import { ClientCardPass } from '../api/Api';
 
 interface Props {
-  pass: {
-    id: number;
-    pass_name: string;
-    pass_description: string;
-    price: number;
-    image?: string;
-    amount: number;
-  };
+  pass: ClientCardPass;
 }
 
 const CompletedClientcardPassCard: React.FC<Props> = ({ pass }) => {
@@ -21,7 +15,7 @@ console.log(pass)
         <Row>
           <Col md={4}>
             <Image
-              src={pass.image || defaultImage}
+              src={pass.pass_image || defaultImage}
               alt="Картинка"
               style={{ width: '100%' }}
             />

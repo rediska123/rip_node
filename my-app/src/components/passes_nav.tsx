@@ -4,7 +4,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { ROUTES, ROUTE_LABELS } from "./../Routes";
 import { api } from '../api';
 import { useDispatch, useSelector } from 'react-redux';
-import { setClientCard } from '../slices/ClientcardSlice';
 import { logout } from '../slices/AuthSlice';
 
 const PassNav: FC = () => {

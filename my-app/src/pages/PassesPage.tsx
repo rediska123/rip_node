@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setPasses, setSearchValue } from '../slices/PassesSlice';
 import { api } from '../api'
 import { setclientcard } from '../slices/AuthSlice'
+import { Pass } from '../api/Api'
 
 const PassesPage: FC = () => {
     const [loading, setLoading] = useState(false)
@@ -41,8 +42,8 @@ const PassesPage: FC = () => {
         navigate(`${ROUTES.PASSES}/${id}`);
     };
 
-    const handleCardAddClick = async (id: string) => {
-        const { request } = await api.passes.passesAddCreate(id, {
+    const handleCardAddClick = async (id: number) => {
+        const { request } = await api.passes.passesAddCreate(String(id), {
             "amount": 1
         });
         if (request.status === 200) {
@@ -95,9 +96,9 @@ const PassesPage: FC = () => {
                         {passes.passes.map((item: Pass, index: number) => (
                             <Col key={index}>
                                 <PassCard
-                                    imageClickHandler={() => handleCardClick(item.id)}
-                                    addClickHandler={() => handleCardAddClick(item.id)}
-                                    {...item} />
+                                    imageClickHandler={() => handleCardClick(item.id || 1)}
+                                    addClickHandler={() => handleCardAddClick(item.id || 1)}
+                                    pass={item} />
                             </Col>
                         ))}
                     </Row>

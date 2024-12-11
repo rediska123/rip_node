@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { setUser } from '../slices/AuthSlice';
 import { Button, Container, Form } from 'react-bootstrap';
-import { User } from '../api/Api';
 import { api } from '../api';
 import { useNavigate } from 'react-router-dom';
 import { ROUTE_LABELS, ROUTES } from '../Routes';

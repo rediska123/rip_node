@@ -453,10 +453,27 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/client_cards/
      * @secure
      */
-    clientCardsList: (params: RequestParams = {}) =>
-      this.request<ClientCard, any>({
+    clientCardsList: (
+      query?: {
+        /** Filter by status */
+        status?: number;
+        /**
+         * Start date for filtering
+         * @format date
+         */
+        start_date?: string;
+        /**
+         * End date for filtering
+         * @format date
+         */
+        end_date?: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<ClientCard[], any>({
         path: `/client_cards/`,
         method: "GET",
+        query: query,
         secure: true,
         format: "json",
         ...params,
@@ -541,13 +558,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/client_cards/{id}/submit/
      * @secure
      */
-    clientCardsSubmitCreate: (id: string, data: ClientCardDetails, params: RequestParams = {}) =>
+    clientCardsSubmitCreate: (id: string, params: RequestParams = {}) =>
       this.request<ClientCardDetails, any>({
         path: `/client_cards/${id}/submit/`,
         method: "POST",
-        body: data,
         secure: true,
-        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -578,10 +593,17 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/passes/
      * @secure
      */
-    passesList: (params: RequestParams = {}) =>
+    passesList: (
+      query?: {
+        /** Price filter */
+        price?: number;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<PassesResponse, any>({
         path: `/passes/`,
         method: "GET",
+        query: query,
         secure: true,
         format: "json",
         ...params,

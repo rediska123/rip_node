@@ -2,18 +2,44 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Form, Button } from 'react-bootstrap';
 import { api } from '../api';
-import CompletedClientcardPassCard from '../components/ComplitedClientcardPassCard';
+import ClientcardPassCard from '../components/ClientcardPassCard';
 import { ClientCardDetails } from '../api/Api';
 import { BreadCrumbs } from '../components/BreadCrumbs';
 import { ROUTE_LABELS, ROUTES } from '../Routes';
 import PassNav from '../components/passes_nav';
 import { useDispatch, useSelector } from 'react-redux';
-import ClientcardPassCard from '../components/ClientcardPassCard';
+import { clearClientcard } from '../slices/AuthSlice';
+import { useNavigate } from 'react-router-dom';
+import { clear, setName, setPhone } from '../slices/ClientcardSlice';
 
 const CurrentClientcardPage: React.FC = () => {
     const [pageData, setPageDdata] = useState<ClientCardDetails | undefined>(undefined);
     const dispatch = useDispatch()
     const id = useSelector((state: any) => state.auth.clientcard_id);
+    console.log("ID", id)
+    const name = useSelector((state: any) => state.clientcard.name);
+    const phone = useSelector((state: any) => state.clientcard.phone);
+    const navigate = useNavigate();
+
+    const handleSubmit = async () => {
+        const { request } = await api.clientCards.clientCardsUpdate(id,
+             { name: name,
+               phone: phone
+              });
+        if (request.status === 200) {
+            fetchData();
+            SubmitProcurement();
+        }
+    }
+
+    const SubmitProcurement = async () => {
+        const { request } = await api.clientCards.clientCardsSubmitCreate(id);
+        if (request.status === 200) {
+            dispatch(clearClientcard());
+            dispatch(clear());
+            navigate(`${ROUTES.CLIENTCARDS}`);
+        }
+    }
 
     const handleAddClick = async (id: string) => {
         const { request } = await api.clientCardPass.clientCardPassUpdate(id, { amount: 1 });
@@ -51,14 +77,32 @@ const CurrentClientcardPage: React.FC = () => {
           { label: pageData?.name || "Проездные" },
         ]}
       />
-      <h2>Order Page</h2>
-      <p>Клиент: {pageData?.name}</p>
-      <p>Телефон: {pageData?.phone}</p>
-      <p>Дата создания: {pageData?.created_date}</p>
-      <p>Дата одобрения: {pageData?.submited_date}</p>
-      {pageData?.passes && pageData.passes.map((pass: any) => (
-        <ClientcardPassCard key={pass.id} pass={pass} handleIncrease={() => handleAddClick(pass.id)} handleDecrease={() => handleDecClick(pass.id)} />
-      ))}
+      <h2>Конструктор абонемента</h2>
+      <Form onSubmit={handleSubmit}>
+                <Form.Group controlId="name">
+                    <Form.Label>Имя</Form.Label>
+                    <Form.Control
+                        type="text"
+                        value={name}
+                        onChange={(e) => dispatch(setName(e.target.value))}
+                    />
+                </Form.Group>
+                <Form.Group controlId="phone">
+                    <Form.Label>Телефон</Form.Label>
+                    <Form.Control
+                        type="text"
+                        value={phone}
+                        onChange={(e) => dispatch(setPhone(e.target.value))}
+                    />
+                </Form.Group>
+
+            {pageData?.passes && pageData.passes.map((pass: any) => (
+                <ClientcardPassCard key={pass.id} pass={pass} handleIncrease={() => handleAddClick(pass.id)} handleDecrease={() => handleDecClick(pass.id)} />
+            ))}
+            <Button variant="primary" onClick={handleSubmit}>
+                Submit
+            </Button>
+        </Form>
     </Container>
   );
 };

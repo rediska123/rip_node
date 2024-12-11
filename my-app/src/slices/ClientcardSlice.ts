@@ -1,31 +1,33 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Pass, ClientCardDetails, ClientCard, ClientCardPass } from '../api/Api';
 
-interface cards {
-    clientcard: ClientCardDetails | null
+interface state {
+    name: string;
+    phone: string;
+    
 }
 
-const initialState: cards = {
-  clientcard: null,
-};
+const initialState: state = {
+    name: '',
+    phone: ''
+}
 
-const procurementSlice = createSlice({
-    name: 'procurement',
+const ClientcardSlice = createSlice({
+    name: 'Clientcard',
     initialState,
     reducers: {
-        setClientcard(state, action: PayloadAction<ClientCardDetails>) {
-            state.clientcard = action.payload;
+        setName(state, action: PayloadAction<string>) {
+            state.name = action.payload;
         },
-        setItems(state, action: PayloadAction<ClientCardPass>) {
-            if (state !== null && state.clientcard != null)
-                state.clientcard.passes = action.payload
+        setPhone(state, action: PayloadAction<string>) {
+            state.phone = action.payload;
         },
-        clearClientcard: (state) => {
-            state.clientcard = null;
-        },
+        clear: (state) => {
+            state.name = '';
+            state.phone = ''
+          },
     },
 });
 
-export const { setClientCard, setItems } = procurementSlice.actions;
+export const { setName, setPhone, clear } = ClientcardSlice.actions;
 
-export default procurementSlice.reducer;
+export default ClientcardSlice.reducer;

@@ -1,9 +1,9 @@
 // src/features/passes/OrderPage.tsx
 import React, { useEffect, useState } from 'react';
-import { Container, Form, Button } from 'react-bootstrap';
+import { Container } from 'react-bootstrap';
 import { api } from '../api';
 import CompletedClientcardPassCard from '../components/ComplitedClientcardPassCard';
-import { ClientCard, ClientCardDetails } from '../api/Api';
+import { ClientCardDetails } from '../api/Api';
 import { useParams } from 'react-router-dom';
 import { BreadCrumbs } from '../components/BreadCrumbs';
 import { ROUTE_LABELS, ROUTES } from '../Routes';
@@ -16,7 +16,7 @@ const ComplitedClientcardPage: React.FC = () => {
   
     useEffect(() => {
   const fetchData = async () => {
-        const { request } = await api.clientCards.clientCardsRead(id);
+        const { request } = await api.clientCards.clientCardsRead(String(id));
         if (request.status === 200) {
           setPageDdata(JSON.parse(request.response))
           console.log("COMPLETED_CLIETNCARD")

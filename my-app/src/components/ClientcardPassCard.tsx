@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Card, Row, Col, Image, Button } from 'react-bootstrap';
 import defaultImage from "../bus.png";
 import { ClientCardPass } from '../api/Api';

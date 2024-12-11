@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import {PassesResponse, User, UserResponse} from '../api/Api'
+import {PassesResponse, User} from '../api/Api'
 
 
 interface AuthState {
@@ -33,10 +33,14 @@ const authSlice = createSlice({
         setclientcard(state, action: PayloadAction<PassesResponse>) {
             state.clientcard_id = action.payload.clientcard_id;
             state.clientcard_count = action.payload.clientcard_count
+        },
+        clearClientcard(state){
+            state.clientcard_id = -1;
+            state.clientcard_count = -1;
         }
     },
 });
 
-export const { setUser, logout, setclientcard } = authSlice.actions;
+export const { setUser, logout, setclientcard, clearClientcard } = authSlice.actions;
 
 export default authSlice.reducer;

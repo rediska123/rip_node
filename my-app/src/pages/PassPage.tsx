@@ -16,7 +16,7 @@ export const PassPage: FC = () => {
 
   useEffect(() => {
 const fetchData = async () => {
-      const { request } = await api.passes.passesRead(id);
+      const { request } = await api.passes.passesRead(String(id));
       if (request.status === 200) {
         setPageDdata(JSON.parse(request.response))
         console.log("PASS")

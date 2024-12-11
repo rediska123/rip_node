@@ -3,10 +3,11 @@ import { FC, useEffect, useState } from "react";
 import { BreadCrumbs } from "../components/BreadCrumbs";
 import { ROUTES, ROUTE_LABELS } from "../Routes";
 import { useParams } from "react-router-dom";
-import { Pass, getPassById } from "../modules/PassesApi";
 import { Col, Row, Spinner, Image } from "react-bootstrap";
 import defaultImage from "../bus.png";
 import PassNav from "../components/passes_nav";
+import { api } from "../api";
+import { Pass } from "../api/Api";
 
 export const PassPage: FC = () => {
   const [pageData, setPageDdata] = useState<Pass>();
@@ -14,10 +15,17 @@ export const PassPage: FC = () => {
   const { id } = useParams(); // ид страницы, пример: "/albums/12"
 
   useEffect(() => {
-    if (!id) return;
-    getPassById(parseInt(id))
-      .then((response) => setPageDdata(response));
-  }, [id]);
+const fetchData = async () => {
+      const { request } = await api.passes.passesRead(id);
+      if (request.status === 200) {
+        setPageDdata(JSON.parse(request.response))
+        console.log("PASS")
+        console.log(pageData)
+      }
+  };
+
+  fetchData();
+}, []);
 
   return (
     <div>
@@ -25,7 +33,7 @@ export const PassPage: FC = () => {
       {pageData ? ( // проверка на наличие данных, иначе загрузка
         <div className="container">
             
-          <PassNav name="OOO  ПродажаБилетов"/>
+          <PassNav/>
           <BreadCrumbs
         crumbs={[
           { label: ROUTE_LABELS.PASSES, path: ROUTES.PASSES },

@@ -4,6 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "generate-api": "node scripts/generate-api.mjs",
     "tauri": "tauri",
     "dev": "vite",
     "build": "tsc -b && vite build",
@@ -13,7 +14,7 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.3.0",
-    "axios": "^1.7.7",
+    "axios": "^1.7.9",
     "bootstrap": "^5.3.3",
     "gh-pages": "^6.2.0",
     "react": "^18.3.1",

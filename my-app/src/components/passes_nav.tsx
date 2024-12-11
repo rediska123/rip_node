@@ -1,26 +1,57 @@
-import { FC } from 'react'
-import { Container, Navbar, Nav } from 'react-bootstrap'
-import { ROUTES, ROUTE_LABELS } from '../Routes'
-import { Link } from "react-router-dom";
+import { FC } from 'react';
+import { Container, Navbar, Nav, Button } from 'react-bootstrap';
+import { Link, useNavigate } from "react-router-dom";
+import { ROUTES, ROUTE_LABELS } from "./../Routes";
+import { api } from '../api';
+import { useDispatch, useSelector } from 'react-redux';
+import { setClientCard } from '../slices/ClientcardSlice';
+import { logout } from '../slices/AuthSlice';
 
-interface Props {
-    name: string
-}
+const PassNav: FC = () => {
+  const current_user = useSelector((state: any) => state.auth);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();  
+  const handleLogout = async ()  => {
+    console.log("LOGOUT!")
+    const {request} = await api.logout.logoutCreate();
+    if (request.status == 200)
+      dispatch(logout());
+      console.log(current_user)
+      navigate(`${ROUTES.PASSES}`);
+  };
 
-const PassNav: FC<Props> = ({ name }) => (
-  <Navbar key="md" expand="md" className='pass-nav'>
+  const handleCart = async () => {
+      navigate(`${ROUTES.CURRENTCARD}`);
+  };
+  return (
+    <>
+    <Navbar key="md" expand="md" className='bg-body-tertiary mb-3'>
       <Container>
-          <Navbar.Brand href="/">{name}</Navbar.Brand>
-          <Navbar.Toggle aria-controls="navbarScroll" />
-          <Navbar.Collapse id="navbarScroll">
-              <Nav className="justify-content-end"></Nav>
-              <Nav className="me-auto">
-                  <Nav.Link href="#"><Link to={ROUTES.HOME}>{ROUTE_LABELS.HOME}</Link></Nav.Link>
-                  <Nav.Link href="#"><Link to={ROUTES.PASSES}>{ROUTE_LABELS.PASSES}</Link></Nav.Link>
-              </Nav>
-          </Navbar.Collapse>
+        <Navbar.Brand href="/"><Link to={ROUTES.HOME || ""}>ООО ПродажаБилетов</Link></Navbar.Brand>
+        <Navbar.Toggle aria-controls="navbarScroll" />
+        <Navbar.Collapse id="navbarScroll">
+          <Nav className="justify-content-end">
+            <Nav.Link><Link to={ROUTES.HOME || ""}>{ROUTE_LABELS.HOME}</Link></Nav.Link>
+            <Nav.Link><Link to={ROUTES.PASSES || ""}>{ROUTE_LABELS.PASSES}</Link></Nav.Link>
+            {current_user.isAuthenticated ? (
+              <>
+                <Nav.Link><Link to={ROUTES.PROFILE || ""}>{current_user.user?.username}</Link></Nav.Link>
+                <Nav.Link onClick={handleLogout}><Link to={""}>{"Выйти"}</Link></Nav.Link>
+                <Nav.Link><Link to={ROUTES.CLIENTCARDS || ""}>{ROUTE_LABELS.CLIENTCARDS}</Link></Nav.Link>
+              </>
+            ) : (
+              <>
+                <Nav.Link><Link to={ROUTES.LOGIN || ""}>{ROUTE_LABELS.LOGIN}</Link></Nav.Link>
+                <Nav.Link><Link to={ROUTES.REGISTRATION || ""}>{ROUTE_LABELS.REGISTRATION}</Link></Nav.Link>
+              </>
+            )}
+          </Nav>
+        </Navbar.Collapse>
       </Container>
-  </Navbar>
-);
+    </Navbar>
+    {current_user.clientcard_count != -1 ? (<Button onClick={handleCart}>Корзина {current_user.clientcard_count}</Button>) : null}
+    </>
+  );
+};
 
-export default PassNav
+export default PassNav;

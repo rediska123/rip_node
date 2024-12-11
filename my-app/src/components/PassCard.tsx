@@ -11,15 +11,17 @@ interface Props {
     price: number
     image: string
     imageClickHandler: () => void;
+    addClickHandler: () => void;
 }
 
-const PassCard: FC<Props> = ({ name, description, price, image, imageClickHandler }) => (
+const PassCard: FC<Props> = ({ name, description, price, image, imageClickHandler, addClickHandler }) => (
     <Card className="pass-card card h-100">
         <Card.Img className="bd-placeholder-img card-img-top pass-img mx-auto d-block" variant="top" src={image || defaultImage} onClick={imageClickHandler}/>
         <Card.Body>
             <Card.Title>{name}</Card.Title>
             <Card.Text>{description}</Card.Text>
             <span>{price} P</span>
+            <Button className="button pass-button float-end" variant="primary" onClick={addClickHandler}>Купить</Button>
             <Button className="button pass-button float-end" variant="primary" onClick={imageClickHandler}>Подробнее</Button>
         </Card.Body>
     </Card>

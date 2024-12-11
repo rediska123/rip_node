@@ -1,6 +1,5 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
-import {api_proxy_addr, img_proxy_addr} from "./target_config"
 
 export default defineConfig({
   plugins: [react()],
@@ -11,19 +10,7 @@ export default defineConfig({
     strictPort: true,
     // if the host Tauri is expecting is set, use it
     host: '0.0.0.0',
-    port: 3000,
-    proxy: {
-      "/api": {
-        target: api_proxy_addr,
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, "/"),
-      },
-      "/logo": {
-        target: img_proxy_addr,
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/logo/, "/logo"),
-      },
-    }
+    port: 3000
    },
   // Env variables starting with the item of `envPrefix` will be exposed in tauri's source code through `import.meta.env`.
   envPrefix: ['VITE_', 'TAURI_ENV_*'],

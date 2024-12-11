@@ -16,7 +16,7 @@ export interface PassesResult {
 }
 
 export const getPassesByPrice = async (price = ''): Promise<PassesResult> =>{
-    return fetch(`/api/passes/?price=${price}`)
+    return fetch(`http:///api/passes/?price=${price}`)
         .then((response) => response.json())
         .catch(()=> (PASSES_MOCK))
 }

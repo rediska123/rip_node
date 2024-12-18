@@ -95,6 +95,11 @@ export interface ClientCard {
    * @minLength 1
    */
   moderator?: string | null;
+  /**
+   * Payment number
+   * @maxLength 20
+   */
+  payment_number?: string | null;
 }
 
 export interface ClientCardPass {

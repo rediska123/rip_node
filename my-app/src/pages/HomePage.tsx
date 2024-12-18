@@ -1,24 +1,24 @@
 import { FC } from "react";
-import { Link } from "react-router-dom";
-import { Button, Col, Container, Row } from "react-bootstrap";
-import { ROUTES } from "../Routes";
+import { Col, Container, Row } from "react-bootstrap";
 import PassNav from "../components/passes_nav";
+import './HomePage.css';
 
 export const HomePage: FC = () => {
   return (
-    <Container>
+    <div>
       <PassNav/>
-      <Row>
-        <Col md={6}>
-          <h1>ООО Продажа билетов</h1>
-          <p>
-            Добро пожаловать в ООО Продажа билетов! Здесь вы можете купить абонемент на транспорт.
-          </p>
-          <Link to={ROUTES.PASSES}>
-            <Button variant="primary">Просмотреть абонементы</Button>
-          </Link>
-        </Col>
-      </Row>
-    </Container>
+      <div className="homepage-background">
+        <Container className="homepage-content">
+          <Row>
+            <Col md={6} className="homepage-text">
+              <h1>Добро пожаловать!</h1>
+              <p>
+                В ООО Продажа билетов вы можете купить абонемент на транспорт.
+              </p>
+            </Col>
+          </Row>
+        </Container>
+      </div>
+    </div>
   );
 };

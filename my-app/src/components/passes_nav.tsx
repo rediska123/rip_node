@@ -24,7 +24,7 @@ const PassNav: FC = () => {
   };
   return (
     <>
-    <Navbar key="md" expand="md" className='bg-body-tertiary mb-3'>
+    <Navbar key="md" expand="md" className='mb-3 pass-navigation'>
       <Container>
         <Navbar.Brand href="/"><Link to={ROUTES.HOME || ""}>ООО ПродажаБилетов</Link></Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarScroll" />

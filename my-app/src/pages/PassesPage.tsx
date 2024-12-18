@@ -62,6 +62,7 @@ const PassesPage: FC = () => {
             const { request } = await api.passes.passesList();
             if (request.status === 200) {
                 dispatch(setPasses(JSON.parse(request.response)));
+                dispatch(setclientcard(JSON.parse(request.response)));
                 console.log("PASSES")
                 console.log(passes)
             }

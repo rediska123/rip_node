@@ -84,27 +84,27 @@ const ClientcardsPage: React.FC = () => {
       <Table striped bordered hover>
         <thead>
           <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Phone</th>
-            <th>Accepted Date</th>
-            <th>Created Date</th>
-            <th>Status</th>
-            <th>Submitted Date</th>
-            <th>Username</th>
-            <th>Moderator</th>
+            <th>#</th>
+            <th>Имя</th>
+            <th>Телефон</th>
+            <th>Дата принятия</th>
+            <th>Дата создания</th>
+            <th>Статус</th>
+            <th>Номер чека</th>
+            <th>Пользователь</th>
+            <th>Модератор</th>
           </tr>
         </thead>
         <tbody>
           {clientcards.map((order: ClientCard) => (
             <tr onClick={() => {}}>
-              <td><Link to={`${ROUTES.CLIENTCARDS}/${order.id}`}>{order.id}</Link></td>
+              <td><Link to={`${ROUTES.CLIENTCARDS}/${order.id}`} className='btn btn-primary'>Смотреть</Link></td>
               <td>{order.name}</td>
               <td>{order.phone}</td>
               <td>{order.accepted_date}</td>
-              <td>{order.created_date}</td>
-              <td>{order.status}</td>
               <td>{order.submited_date}</td>
+              <td>{order.status}</td>
+              <td>{order.payment_number}</td>
               <td>{order.username}</td>
               <td>{order.moderator}</td>
             </tr>

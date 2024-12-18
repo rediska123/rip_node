@@ -31,8 +31,13 @@ const authSlice = createSlice({
             state.clientcard_count = -1;
         },
         setclientcard(state, action: PayloadAction<PassesResponse>) {
-            state.clientcard_id = action.payload.clientcard_id;
-            state.clientcard_count = action.payload.clientcard_count
+            if (action.payload.clientcard_id === null || action.payload.clientcard_count < 1) {
+                state.clientcard_id = -1;
+                state.clientcard_count = -1;
+            } else {
+                state.clientcard_id = action.payload.clientcard_id;
+                state.clientcard_count = action.payload.clientcard_count;
+            }
         },
         clearClientcard(state){
             state.clientcard_id = -1;

@@ -16,7 +16,7 @@ export interface PassesResult {
 }
 
 export const getPassesByPrice = async (price = ''): Promise<PassesResult> =>{
-    return fetch(`http:///api/passes/?price=${price}`)
+    return fetch(`http:///localhost:8000/passes/?price=${price}`)
         .then((response) => response.json())
         .catch(()=> (PASSES_MOCK))
 }
@@ -24,7 +24,7 @@ export const getPassesByPrice = async (price = ''): Promise<PassesResult> =>{
 export const getPassById = async (
     id: number
   ): Promise<Pass> => {
-    return fetch(`/api/passes/${id}/`)
+    return fetch(`http://localhost:8000/passes/${id}/`)
     .then((response) => response.json())
     .catch(()=> (PASSES_MOCK.passes.find(
       (pass) => pass.id === id

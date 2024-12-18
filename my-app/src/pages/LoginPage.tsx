@@ -1,7 +1,7 @@
 // src/features/auth/Login.tsx
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { setclientcard, setUser } from '../slices/AuthSlice';
+import { login, setclientcard, setUser } from '../slices/AuthSlice';
 import { Button, Container, Form } from 'react-bootstrap';
 import { api } from '../api';
 import { useNavigate } from 'react-router-dom';
@@ -17,16 +17,12 @@ const Login: React.FC = () => {
 
     const handleLogin = async (event: React.FormEvent) => {
         event.preventDefault();
-        const { request } = await api.auth.authCreate({
-            "username": username,
-            "password": password
-        })
-        if (request.status == 200) {
-            dispatch(setUser(JSON.parse(request.response)))
-            handleCart();
-            navigate(`${ROUTES.PASSES}`)
+        const resultAction = await dispatch(login({ username, password }));
+        if (login.fulfilled.match(resultAction)) {
+          handleCart();
+          navigate(ROUTES.PASSES);
         }
-    };
+      };
 
     const handleCart = async () => {
         const { request } = await api.passes.passesList();

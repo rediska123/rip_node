@@ -1,6 +1,7 @@
 // src/features/orders/ordersSlice.ts
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ClientCard } from '../api/Api';
+import { api } from '../api';
 
 interface cards {
     clientcards: ClientCard[],
@@ -15,6 +16,23 @@ const initialState: cards = {
   date_end: '',
   status: '',
 };
+
+interface FetchClientCardsPayload {
+  start_date?: string;
+  end_date?: string;
+  status?: number;
+}
+
+export const fetchClientCards = createAsyncThunk<ClientCard[], FetchClientCardsPayload>(
+  'clientcards/fetchClientCards',
+  async (payload: FetchClientCardsPayload) => {
+      const { request } = await api.clientCards.clientCardsList(payload);
+      if (request.status === 200) {
+        const data = JSON.parse(request.response) as ClientCard[];
+        return data;
+      }
+  }
+);
 
 const ClientcardsSlice = createSlice({
   name: 'orders',
@@ -41,6 +59,12 @@ const ClientcardsSlice = createSlice({
         console.log(action.payload, typeof(action.payload))
         state.status = action.payload
     },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchClientCards.fulfilled, (state, action) => {
+        state.clientcards = action.payload;
+      })
   },
 });
 

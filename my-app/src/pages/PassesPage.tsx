@@ -7,7 +7,7 @@ import { BreadCrumbs } from '../components/BreadCrumbs'
 import { useNavigate } from "react-router-dom";
 import PassNav from '../components/passes_nav'
 import { useDispatch, useSelector } from 'react-redux';
-import { setPasses, setSearchValue } from '../slices/PassesSlice';
+import { fetchPasses, setPasses, setSearchValue } from '../slices/PassesSlice';
 import { api } from '../api'
 import { setclientcard } from '../slices/AuthSlice'
 import { Pass } from '../api/Api'
@@ -24,16 +24,7 @@ const PassesPage: FC = () => {
 
     const handleSearch = async () => {
         setLoading(true);
-        const fetchData = async () => {
-            const { request } = await api.passes.passesList();
-            if (request.status === 200) {
-                dispatch(setPasses(JSON.parse(request.response)));
-                console.log("PASSES")
-                console.log(passes)
-            }
-        };
-
-        fetchData();
+        dispatch(fetchPasses());
         setLoading(false);
     };
 
@@ -59,13 +50,7 @@ const PassesPage: FC = () => {
     useEffect(() => {
         setLoading(true);
         const fetchData = async () => {
-            const { request } = await api.passes.passesList();
-            if (request.status === 200) {
-                dispatch(setPasses(JSON.parse(request.response)));
-                dispatch(setclientcard(JSON.parse(request.response)));
-                console.log("PASSES")
-                console.log(passes)
-            }
+            dispatch(fetchPasses());
         };
 
         fetchData();

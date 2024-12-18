@@ -39,8 +39,8 @@ const ComplitedClientcardPage: React.FC = () => {
       <h2>Order Page</h2>
       <p>Клиент: {pageData?.name}</p>
       <p>Телефон: {pageData?.phone}</p>
-      <p>Дата создания: {pageData?.created_date}</p>
-      <p>Дата одобрения: {pageData?.submited_date}</p>
+      <p>Дата создания: {pageData?.submited_date}</p>
+      <p>Дата одобрения: {pageData?.accepted_date}</p>
       {pageData?.passes && pageData.passes.map((pass: any) => (
         <CompletedClientcardPassCard key={pass.id} pass={pass} />
       ))}

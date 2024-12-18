@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { Table, Container, Button, Form} from 'react-bootstrap';
 import { ClientCard } from '../api/Api';
 import { api } from '../api';
-import { setCards, setEndDate, setStartDate, setStatus } from '../slices/ClientcardsSlice';
+import { fetchClientCards, setCards, setEndDate, setStartDate, setStatus } from '../slices/ClientcardsSlice';
 import { ROUTE_LABELS, ROUTES } from '../Routes';
 import { BreadCrumbs } from '../components/BreadCrumbs';
 import PassNav from '../components/passes_nav';
@@ -20,31 +20,18 @@ const ClientcardsPage: React.FC = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-          const { request } = await api.clientCards.clientCardsList();
-          if (request.status === 200) {
-            dispatch(setCards(JSON.parse(request.response)));
-            console.log("CLIENT CARDS")
-            console.log(clientcards)
-          }
+          dispatch(fetchClientCards({}));
       };
   
       fetchData();
   }, []);
 
   const handleSearch = async () => {
-    console.log(status, start_date, end_date)
-    const { request } = await api.clientCards.clientCardsList({
-        start_date: start_date,
-        end_date: end_date,
-        status: parseInt(status, 10)
-    });
-    if (request.status === 200) {
-        const data = JSON.parse(request.response);
-        console.log('Filtered data:', data);
-        dispatch(setCards(data));
-    } else {
-        console.error('Failed to fetch filtered data');
-    }
+    dispatch(fetchClientCards({
+      start_date,
+      end_date,
+      status: parseInt(status, 10),
+    }));
 };
 
   return (

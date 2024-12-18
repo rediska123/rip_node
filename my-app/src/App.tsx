@@ -6,7 +6,7 @@ import { ROUTES } from "./Routes";
 
 function App() {
   return (
-    <BrowserRouter basename="/rip_node"> {/* RepoName - название вашего репозитория */}
+    <BrowserRouter basename="/passes_frontend"> {/* RepoName - название вашего репозитория */}
       <Routes>
         <Route path={ROUTES.HOME} index element={<HomePage />} />
         <Route path={ROUTES.PASSES} element={<PassesPage />} />

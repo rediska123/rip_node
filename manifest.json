@@ -1,7 +1,7 @@
 {
     "name": "ООО ПродажаБилетов",
     "short_name": "ПродажаБилетов",
-    "start_url": "/passes_frontend",
+    "start_url": "/",
     "display": "standalone",
     "background_color": "#fdfdfd",
     "theme_color": "#db4938",

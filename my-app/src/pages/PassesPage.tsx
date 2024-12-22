@@ -7,7 +7,7 @@ import { BreadCrumbs } from '../components/BreadCrumbs'
 import { useNavigate } from "react-router-dom";
 import PassNav from '../components/passes_nav'
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchPasses, setPasses, setSearchValue } from '../slices/PassesSlice';
+import { fetchPasses, setSearchValue } from '../slices/PassesSlice';
 import { api } from '../api'
 import { setclientcard } from '../slices/AuthSlice'
 import { Pass } from '../api/Api'

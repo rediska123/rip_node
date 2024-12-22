@@ -1,5 +1,6 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { PassesResponse } from '../api/Api';
+import { api } from '../api';
 
 interface SearchState {
     searchValue: string;
@@ -10,6 +11,17 @@ const initialState: SearchState = {
     searchValue: '',
     passes: null,
 };
+
+export const fetchPasses = createAsyncThunk<PassesResponse, void>(
+    'auth/fetchClientCard',
+    async () => {
+        const { request } = await api.passes.passesList();
+        if (request.status === 200) {
+          const clientCard = JSON.parse(request.response) as PassesResponse;
+          return clientCard;
+        } 
+    }
+  );
 
 const passesSlice = createSlice({
     name: 'passes',
@@ -22,6 +34,12 @@ const passesSlice = createSlice({
             state.passes = action.payload;
         },
     },
+    extraReducers: (builder) => {
+        builder
+        .addCase(fetchPasses.fulfilled, (state, action) => {
+            state.passes = action.payload;
+          })
+      },
 });
 
 export const { setSearchValue, setPasses } = passesSlice.actions;

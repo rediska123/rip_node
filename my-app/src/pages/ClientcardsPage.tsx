@@ -10,6 +10,13 @@ import { ROUTE_LABELS, ROUTES } from '../Routes';
 import { BreadCrumbs } from '../components/BreadCrumbs';
 import PassNav from '../components/passes_nav';
 
+const statusMap = {
+  1: 'Черновик',
+  2: 'Удалён',
+  3: 'Сформирован',
+  4: 'Завершён'
+};
+
 const ClientcardsPage: React.FC = () => {
   const clientcards = useSelector((state: any) => state.clientcards.clientcards);
   const start_date = useSelector((state: any) => state.clientcards.date_start);
@@ -38,7 +45,7 @@ const ClientcardsPage: React.FC = () => {
     <Container>
         <PassNav/>
         <BreadCrumbs crumbs={[{ label: ROUTE_LABELS.CLIENTCARDS }]} />
-      <h2>Список абонементов</h2>
+      <h2>История проездных</h2>
       <Form>
                 <Form.Group controlId="dateStart">
                     <Form.Label>Начало даты</Form.Label>
@@ -56,15 +63,18 @@ const ClientcardsPage: React.FC = () => {
                         onChange={(e) => dispatch(setEndDate(e.target.value))}
                     />
                 </Form.Group>
+                
                 <Form.Group controlId="status">
                     <Form.Label>Статус заказа</Form.Label>
-                    <Form.Control
-                        type="text"
-                        value={status || ''}
-                        onChange={(e) => dispatch(setStatus(e.target.value))}
-                    />
+                    <Form.Control as="select" value={status || ''} onChange={(e) => dispatch(setStatus(e.target.value))}>
+                      <option value="">Выберите статус</option>
+                      {Object.entries(statusMap).map(([key, value]) => (
+                        <option key={key} value={key}>{value}</option>
+                      ))}
+                    </Form.Control>
                 </Form.Group>
-                <Button variant="primary" onClick={handleSearch}>
+                
+                <Button variant="primary" onClick={handleSearch} className='my-2'>
                     Поиск
                 </Button>
             </Form>
@@ -90,7 +100,7 @@ const ClientcardsPage: React.FC = () => {
               <td>{order.phone}</td>
               <td>{order.accepted_date}</td>
               <td>{order.submited_date}</td>
-              <td>{order.status}</td>
+              <td>{statusMap[order.status]}</td>
               <td>{order.payment_number}</td>
               <td>{order.username}</td>
               <td>{order.moderator}</td>

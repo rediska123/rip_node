@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { Container, Navbar, Nav, Button } from 'react-bootstrap';
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { ROUTES, ROUTE_LABELS } from "./../Routes";
 import { api } from '../api';
 import { useDispatch, useSelector } from 'react-redux';
@@ -11,6 +11,7 @@ const PassNav: FC = () => {
   const current_user = useSelector((state: any) => state.auth);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const location = useLocation();
 
   const handleLogout = async () => {
     console.log("LOGOUT!")
@@ -52,7 +53,7 @@ const PassNav: FC = () => {
           </Navbar.Collapse>
         </Container>
       </Navbar>
-      {current_user.clientcard_count != -1 ?  (<Button onClick={handleCart}>Корзина {current_user.clientcard_count}</Button>) : current_user.user != null ? (<Button className="btn btn-secondary">Корзина</Button>) : null}
+      {location.pathname !== ROUTES.PROFILE && current_user.clientcard_count != -1 && current_user.user != null ?  (<Button onClick={handleCart}>Корзина {current_user.clientcard_count}</Button>) : current_user.user != null && location.pathname !== ROUTES.PROFILE ? (<Button className="btn btn-secondary">Корзина</Button>) : null}
     </>
   );
 };

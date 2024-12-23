@@ -43,6 +43,12 @@ margin-left: auto;
 padding: 0px;
 }
 
+.card-body{
+  display: flex !important;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
 .header a {
   display: inline-block;
   padding: 10px 15px;
@@ -106,10 +112,11 @@ background-color: #1c8431;
 }
 
 .pass-button {
+  display: block;
 	background: #0099ff;
 	border-radius: 14px;
 	border: 0;
-  }
+margin-right: auto;  }
 
 .button:hover {
   background-color: #1c8431;
@@ -134,4 +141,9 @@ background-color: #1c8431;
   height: auto;
 }
 
-
+.my-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 10px;
+}

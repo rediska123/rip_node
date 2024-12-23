@@ -7,9 +7,10 @@ interface Props {
   pass: ClientCardPass;
   handleDecrease?: () => void;
   handleIncrease?: () => void;
+  handleDelete?: () => void;
 }
 
-const ClientcardPassCard: React.FC<Props> = ({ pass, handleDecrease, handleIncrease }) => {
+const ClientcardPassCard: React.FC<Props> = ({ pass, handleDecrease, handleIncrease, handleDelete }) => {
 
   return (
     <Card style={{ marginBottom: '20px' }}>
@@ -31,6 +32,7 @@ const ClientcardPassCard: React.FC<Props> = ({ pass, handleDecrease, handleIncre
               <Button variant="secondary" onClick={handleDecrease}>-</Button>
               <span style={{ margin: '0 10px' }}>{pass.amount}</span>
               <Button variant="secondary" onClick={handleIncrease}>+</Button>
+              <Button variant="secondary" onClick={handleDelete} className="mx-2">Удалить</Button>
             </div>
           </Col>
         </Row>

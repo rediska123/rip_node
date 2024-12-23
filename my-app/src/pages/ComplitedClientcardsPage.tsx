@@ -33,10 +33,10 @@ const ComplitedClientcardPage: React.FC = () => {
         <BreadCrumbs
         crumbs={[
           { label: ROUTE_LABELS.CLIENTCARDS, path: ROUTES.CLIENTCARDS },
-          { label: pageData?.name || "Проездные" },
+          { label: pageData?.name || "Проездной" },
         ]}
       />
-      <h2>Order Page</h2>
+      <h2>Страница проездного</h2>ы
       <p>Клиент: {pageData?.name}</p>
       <p>Телефон: {pageData?.phone}</p>
       <p>Дата создания: {pageData?.submited_date}</p>

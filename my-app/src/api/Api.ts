@@ -68,7 +68,7 @@ export interface ClientCard {
    * Accepted date
    * @format date-time
    */
-  accepted_date?: string | null;
+  accepted_date?: string;
   /**
    * Created date
    * @format date-time
@@ -84,7 +84,7 @@ export interface ClientCard {
    * Submited date
    * @format date-time
    */
-  submited_date?: string | null;
+  submited_date?: string;
   /**
    * Username
    * @minLength 1
@@ -100,37 +100,6 @@ export interface ClientCard {
    * @maxLength 20
    */
   payment_number?: string | null;
-}
-
-export interface ClientCardPass {
-  /**
-   * Pass name
-   * @minLength 1
-   */
-  pass_name: string;
-  /**
-   * Pass price
-   * @minLength 1
-   */
-  pass_price: string;
-  /**
-   * Amount
-   * @min -2147483648
-   * @max 2147483647
-   */
-  amount: number;
-  /** ID */
-  id?: number;
-  /**
-   * Pass description
-   * @minLength 1
-   */
-  pass_description: string;
-  /**
-   * Pass image
-   * @minLength 1
-   */
-  pass_image: string;
 }
 
 export interface ClientCardDetails {
@@ -167,7 +136,8 @@ export interface ClientCardDetails {
    * @max 2147483647
    */
   status?: number;
-  passes?: ClientCardPass[];
+  /** Passes */
+  passes?: string;
   /**
    * Username
    * @minLength 1
@@ -222,6 +192,37 @@ export interface PassesResponse {
   clientcard_id: number;
   /** Clientcard count */
   clientcard_count: number;
+}
+
+export interface ClientCardPass {
+  /**
+   * Pass name
+   * @minLength 1
+   */
+  pass_name: string;
+  /**
+   * Pass price
+   * @minLength 1
+   */
+  pass_price: string;
+  /**
+   * Amount
+   * @min -2147483648
+   * @max 2147483647
+   */
+  amount: number;
+  /** ID */
+  id?: number;
+  /**
+   * Pass description
+   * @minLength 1
+   */
+  pass_description: string;
+  /**
+   * Pass image
+   * @minLength 1
+   */
+  pass_image: string;
 }
 
 export interface EditUser {
@@ -411,6 +412,23 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         body: data,
         secure: true,
         format: "json",
+        ...params,
+      }),
+  };
+  clear = {
+    /**
+     * No description
+     *
+     * @tags clear
+     * @name ClearCreate
+     * @request POST:/clear/{id}
+     * @secure
+     */
+    clearCreate: (id: string, params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/clear/${id}`,
+        method: "POST",
+        secure: true,
         ...params,
       }),
   };

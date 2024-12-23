@@ -33,6 +33,29 @@ const CurrentClientcardPage: React.FC = () => {
         }
     }
 
+    const handleEdit = async () => {
+        
+        const { request } = await api.clientCards.clientCardsUpdate(id,
+            {
+                name: name,
+                phone: phone
+            });
+        if (request.status === 200) {
+            dispatch(setName(JSON.parse(request.response).name));
+            dispatch(setPhone(JSON.parse(request.response).phone));
+            fetchData();
+        }
+    }
+
+    const handleClear = async () => {
+        const { request } = await api.clear.clearCreate(id);
+                if (request.status === 200) {
+                    dispatch(clearClientcard());
+                    dispatch(clear());
+                    navigate(`${ROUTES.PASSES}`);
+                }
+        }
+
     const SubmitProcurement = async () => {
         const { request } = await api.clientCards.clientCardsSubmitCreate(id);
         if (request.status === 200) {
@@ -51,6 +74,13 @@ const CurrentClientcardPage: React.FC = () => {
 
     const handleDecClick = async (id: string) => {
         const { request } = await api.clientCardPass.clientCardPassUpdate(id, { amount: -1 });
+        if (request.status === 200) {
+            fetchData();
+        }
+    };
+
+    const handleDelete = async (id: string) => {
+        const { request } = await api.clientCardPass.clientCardPassDelete(id);
         if (request.status === 200) {
             fetchData();
         }
@@ -77,7 +107,7 @@ const CurrentClientcardPage: React.FC = () => {
         if (pageData?.passes?.length <= 0) {
             navigate(`${ROUTES.PASSES}`)
         }
-    }, [])
+    }, [pageData])
 
     return (
         <Container>
@@ -88,7 +118,7 @@ const CurrentClientcardPage: React.FC = () => {
                     { label: pageData?.name || "Проездные" },
                 ]}
             />
-            <h2>Конструктор абонемента</h2>
+            <h2>Конструктор проездного</h2>
             <Form onSubmit={handleSubmit}>
                 <Form.Group controlId="name">
                     <Form.Label>Имя</Form.Label>
@@ -98,7 +128,7 @@ const CurrentClientcardPage: React.FC = () => {
                         onChange={(e) => dispatch(setName(e.target.value))}
                     />
                 </Form.Group>
-                <Form.Group controlId="phone">
+                <Form.Group controlId="phone" className="mb-3">
                     <Form.Label>Телефон</Form.Label>
                     <Form.Control
                         type="text"
@@ -108,10 +138,16 @@ const CurrentClientcardPage: React.FC = () => {
                 </Form.Group>
 
                 {pageData?.passes && pageData.passes.map((pass: any) => (
-                    <ClientcardPassCard key={pass.id} pass={pass} handleIncrease={() => handleAddClick(pass.id)} handleDecrease={() => handleDecClick(pass.id)} />
+                    <ClientcardPassCard key={pass.id} pass={pass} handleIncrease={() => handleAddClick(pass.id)} handleDecrease={() => handleDecClick(pass.id)} handleDelete={() => handleDelete(pass.id)}/>
                 ))}
-                <Button variant="primary" onClick={handleSubmit}>
-                    Submit
+                <Button variant="primary" onClick={handleEdit} className="mt-2 mx-2">
+                    Сохранить
+                </Button>
+                <Button variant="primary" onClick={handleClear} className="mt-2 mx-2">
+                    Очистить корзину
+                </Button>
+                <Button variant="primary" onClick={handleSubmit} className="mt-2 mx-2">
+                    Оформить
                 </Button>
             </Form>
         </Container>
